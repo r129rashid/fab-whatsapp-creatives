@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAB Skin Hair & Laser Clinic — WhatsApp Creative Pack Preview</title>
+  <style>
+    :root {
+      --magenta: #8E1B5C;
+      --gold: #C4A23F;
+      --charcoal: #2B2B2B;
+      --cream: #FAF7F2;
+      --soft-grey: #6e6e6e;
+      --line: #ece6dd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.5;
+    }
+    header {
+      padding: 48px 32px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--line);
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: var(--magenta);
+      letter-spacing: -0.01em;
+    }
+    header .tagline {
+      font-style: italic;
+      color: var(--soft-grey);
+      margin: 0 0 12px;
+    }
+    header p.lede {
+      max-width: 780px;
+      margin: 16px 0 0;
+      color: var(--charcoal);
+    }
+    .meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--soft-grey);
+    }
+    .meta strong { color: var(--charcoal); }
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 28px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-num {
+      background: var(--magenta);
+      color: #fff;
+      font-weight: 600;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .gif-wrap {
+      aspect-ratio: 1 / 1;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gif-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+    .scenario-meta {
+      font-size: 12px;
+      color: var(--soft-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .message {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--charcoal);
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      padding: 12px 14px;
+      border-radius: 0 6px 6px 0;
+    }
+    .ph {
+      background: rgba(142, 27, 92, 0.08);
+      color: var(--magenta);
+      font-weight: 600;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    .cta-pill {
+      display: inline-block;
+      background: var(--magenta);
+      color: #fff;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .footer-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--soft-grey);
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+    .trigger {
+      font-size: 13px;
+      color: var(--soft-grey);
+    }
+    .trigger b {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--soft-grey);
+      font-size: 13px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FAB Skin Hair &amp; Laser Clinic</h1>
+    <p class="tagline">a complete ethical aesthetic care</p>
+    <p class="lede">WhatsApp tele-caller follow-up creative pack — 8 animated GIFs covering the most common lead scenarios. Each message is ≤ 35 words, uses <span class="ph">{{name}}</span> and <span class="ph">{{campaign}}</span> placeholders, and ends in a single <span class="cta-pill">Reply YES</span> CTA.</p>
+    <div class="meta">
+      <span><strong>Format:</strong> 1080 × 1080 GIF</span>
+      <span><strong>Duration:</strong> 3 s loop @ 10 fps</span>
+      <span><strong>File size:</strong> &lt; 1.5 MB each</span>
+      <span><strong>Compliance:</strong> DCGI / ASCI safe</span>
+    </div>
+  </header>
+
+  <main class="grid" id="grid">
+    <!-- Cards injected by inline JS below -->
+  </main>
+
+  <footer>
+    Tap any GIF tile to enlarge in a new tab • generated <span id="today"></span>
+  </footer>
+
+  <script>
+    const DATA = [
+      { n:1, title:"No answer / not picked", file:"scenario-01-no-answer.gif", trigger:"Outbound call → no answer (after 2 attempts)", text:"Hi {{name}}, we just tried reaching you about your {{campaign}} enquiry — missed you! Reply YES and our consultant will call back at your convenient time. — FAB Skin Hair & Laser Clinic", words:33 },
+      { n:2, title:"Call disconnected", file:"scenario-02-disconnected.gif", trigger:"Call < 30s, disposition = dropped", text:"Hi {{name}}, looks like our call dropped midway. Apologies! Reply YES and we'll continue right where we left off on your {{campaign}} query. — FAB Skin Hair & Laser Clinic", words:30 },
+      { n:3, title:"Asked to be called later", file:"scenario-03-call-later.gif", trigger:"Disposition = callback requested; 30 min before slot", text:"Hi {{name}}, a gentle reminder — you'd asked us to call back for {{campaign}}. Reply YES with a convenient time, and our consultant will reach out. — FAB Skin Hair & Laser Clinic", words:33 },
+      { n:4, title:"Interested, didn't book", file:"scenario-04-didnt-book.gif", trigger:"Call > 60s, no consult booked; 24h after", text:"Hi {{name}}, your interest in {{campaign}} deserves a proper consultation with our experts. Reply YES and we'll help you take the next step at your pace. — FAB Skin Hair & Laser Clinic", words:33 },
+      { n:5, title:"Price objection", file:"scenario-05-price.gif", trigger:"Tag = price objection / expensive / budget", text:"Hi {{name}}, we hear you on budget. Easy EMI options and seasonal offers on {{campaign}} are available this month. Reply YES to know more. — FAB Skin Hair & Laser Clinic", words:31 },
+      { n:6, title:"Comparing competitors", file:"scenario-06-comparing.gif", trigger:"Tag = comparing / mentions other clinic", text:"Hi {{name}}, before you decide on {{campaign}}, here's why patients choose FAB — certified specialists, advanced technology, ethical care. Reply YES for a no-pressure consultation. — FAB Skin Hair & Laser Clinic", words:32 },
+      { n:7, title:"No-show after booking", file:"scenario-07-no-show.gif", trigger:"Appointment = no-show; 2h after missed slot", text:"Hi {{name}}, we kept your slot open today and missed seeing you. Hope all is well! Reply YES to reschedule your {{campaign}} consultation at your convenience. — FAB Skin Hair & Laser Clinic", words:33 },
+      { n:8, title:"Cold / dormant (7+ days)", file:"scenario-08-dormant.gif", trigger:"No reply or disposition for 7 consecutive days", text:"Hi {{name}}, it's been a while! Still thinking about {{campaign}}? Whenever you're ready, our team is just one message away. Reply YES to reconnect. — FAB Skin Hair & Laser Clinic", words:31 }
+    ];
+
+    function highlight(text) {
+      return text
+        .replace(/\{\{name\}\}/g, '<span class="ph">{{name}}</span>')
+        .replace(/\{\{campaign\}\}/g, '<span class="ph">{{campaign}}</span>')
+        .replace(/Reply YES/g, '<span class="cta-pill">Reply YES</span>');
+    }
+
+    const grid = document.getElementById('grid');
+    for (const d of DATA) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-header">
+          <span class="card-num">${d.n}</span>
+          <span class="card-title">${d.title}</span>
+        </div>
+        <a class="gif-wrap" href="creatives/${d.file}" target="_blank" rel="noopener">
+          <img src="creatives/${d.file}" alt="${d.title}" loading="lazy">
+        </a>
+        <div class="card-body">
+          <div class="trigger"><b>When to send:</b> ${d.trigger}</div>
+          <div class="message">${highlight(d.text)}</div>
+          <div class="footer-stats">
+            <span>${d.words} words</span>
+            <span>${d.file}</span>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+
+    document.getElementById('today').textContent = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+  </script>
+</body>
+</html>

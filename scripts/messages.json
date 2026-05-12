@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "clinic": "FAB Skin Hair & Laser Clinic",
+  "signature": "— FAB Skin Hair & Laser Clinic",
+  "placeholders": [
+    "{{name}}",
+    "{{campaign}}"
+  ],
+  "cta_type": "whatsapp_reply",
+  "cta_keyword": "YES",
+  "messages": [
+    {
+      "id": "scenario-01-no-answer",
+      "scenario": "No answer / call not picked",
+      "trigger": "Outbound call → no answer (after 2 attempts in the same day)",
+      "creative": "creatives/scenario-01-no-answer.gif",
+      "text": "Hi {{name}}, we just tried reaching you about your {{campaign}} enquiry — missed you! Reply YES and our consultant will call back at your convenient time. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 33
+    },
+    {
+      "id": "scenario-02-disconnected",
+      "scenario": "Call disconnected mid-conversation",
+      "trigger": "Call duration < 30s and disposition = disconnected / call dropped",
+      "creative": "creatives/scenario-02-disconnected.gif",
+      "text": "Hi {{name}}, looks like our call dropped midway. Apologies! Reply YES and we'll continue right where we left off on your {{campaign}} query. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 30
+    },
+    {
+      "id": "scenario-03-call-later",
+      "scenario": "Lead asked to be called later",
+      "trigger": "Disposition = callback requested; send 30 min before preferred slot",
+      "creative": "creatives/scenario-03-call-later.gif",
+      "text": "Hi {{name}}, a gentle reminder — you'd asked us to call back for {{campaign}}. Reply YES with a convenient time, and our consultant will reach out. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 33
+    },
+    {
+      "id": "scenario-04-didnt-book",
+      "scenario": "Interested but didn't book",
+      "trigger": "Lead engaged (call > 60s) but no consultation confirmed; send 24h after the call",
+      "creative": "creatives/scenario-04-didnt-book.gif",
+      "text": "Hi {{name}}, your interest in {{campaign}} deserves a proper consultation with our experts. Reply YES and we'll help you take the next step at your pace. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 33
+    },
+    {
+      "id": "scenario-05-price",
+      "scenario": "Price objection",
+      "trigger": "Disposition tag = price objection or notes contain expensive / costly / budget",
+      "creative": "creatives/scenario-05-price.gif",
+      "text": "Hi {{name}}, we hear you on budget. Easy EMI options and seasonal offers on {{campaign}} are available this month. Reply YES to know more. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 31
+    },
+    {
+      "id": "scenario-06-comparing",
+      "scenario": "Comparing with competitors",
+      "trigger": "Disposition tag = comparing or notes mention other clinic names",
+      "creative": "creatives/scenario-06-comparing.gif",
+      "text": "Hi {{name}}, before you decide on {{campaign}}, here's why patients choose FAB — certified specialists, advanced technology, ethical care. Reply YES for a no-pressure consultation. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 32
+    },
+    {
+      "id": "scenario-07-no-show",
+      "scenario": "No-show after booking",
+      "trigger": "Booked appointment marked no-show; send same day, 2h after the missed slot",
+      "creative": "creatives/scenario-07-no-show.gif",
+      "text": "Hi {{name}}, we kept your slot open today and missed seeing you. Hope all is well! Reply YES to reschedule your {{campaign}} consultation at your convenience. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 33
+    },
+    {
+      "id": "scenario-08-dormant",
+      "scenario": "Cold / dormant (7+ days silence)",
+      "trigger": "No reply or call disposition for 7 consecutive days",
+      "creative": "creatives/scenario-08-dormant.gif",
+      "text": "Hi {{name}}, it's been a while! Still thinking about {{campaign}}? Whenever you're ready, our team is just one message away. Reply YES to reconnect. — FAB Skin Hair & Laser Clinic",
+      "cta": "Reply YES",
+      "word_count": 31
+    }
+  ]
+}
