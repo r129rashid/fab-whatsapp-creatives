@@ -6,15 +6,16 @@ Project context for Claude Code sessions. Read this at the start of every sessio
 
 ## Project in one sentence
 
-Build and maintain a pack of 8 animated WhatsApp GIF creatives for FAB Skin Hair & Laser Clinic's tele-caller follow-up automation, driven by a single Python renderer and a JSON content file.
+Build and maintain a pack of 8 animated WhatsApp creatives for FAB Skin Hair & Laser Clinic's tele-caller follow-up automation, rendered by a single Python script and delivered as MP4 video for WhatsApp playback.
 
 ---
 
 ## Current status
 
-**v0.2 — production-ready** (as of 12 May 2026).
-All 5 design-review audit fixes applied. 8 GIFs generated, all under 2 MB. Visual QC passed.
-Next action: phone test → TeleCRM upload.
+**v0.3 — production-ready** (as of 12 May 2026).
+MP4 + GIF files generated for all 8 scenarios. Centered layout. Visual QC passed.
+Next action: phone test with MP4 → TeleCRM upload as Video type.
+GitHub: `https://github.com/r129rashid/fab-whatsapp-creatives`
 
 ---
 
@@ -27,9 +28,9 @@ Next action: phone test → TeleCRM upload.
 | Primary | Magenta `#8E1B5C` |
 | Accent | Gold `#C4A23F` |
 | Text | Charcoal `#2B2B2B` |
-| Background | Soft Bloom: rose blush glow (bottom-right) + gold glow (top-left) on off-white `#FAF7F2` |
-| Font | Poppins Bold 86pt (headlines), Regular 40pt (body), Regular 34pt (support line) |
-| Logo file | `Fab Logo.jpg` — 553×225px source, white background (auto-removed by renderer) |
+| Background | Soft Bloom: rose blush glow (bottom-right, alpha 55) + gold glow (top-left, alpha 38) on cream `#FAF7F2` |
+| Font | Poppins Bold 86pt (headline), Regular 40pt (body), Regular 34pt (support line) |
+| Logo file | `Fab Logo.jpg` — 553×225px source, white bg auto-removed by renderer |
 
 ---
 
@@ -37,30 +38,38 @@ Next action: phone test → TeleCRM upload.
 
 ```
 scripts/build_gifs.py     ← single renderer — always edit here
-scripts/messages.json     ← content source of truth (text, triggers, word counts)
+scripts/messages.json     ← WhatsApp message copy source of truth
 scripts/messages.md       ← human-readable version of messages.json
-assets/fonts/             ← Poppins TTF files (do NOT delete)
-creatives/                ← 8 output GIFs (regenerate via build_gifs.py)
-preview.html              ← review page (open in browser after regeneration)
+assets/fonts/             ← Poppins-Bold.ttf, Poppins-Regular.ttf (do NOT delete)
+creatives/*.gif           ← GIF output — for web/preview/email
+creatives/*.mp4           ← MP4 output — USE THESE FOR WHATSAPP / TeleCRM
+preview.html              ← browser review page for all 8 GIFs
 ```
 
-**To regenerate all 8 GIFs:**
+**To regenerate all 8 creatives (GIF + MP4):**
 ```bash
 cd "/Users/rabirashid/Rabi AI Projects/Claude whatsapp creatives"
 python3 scripts/build_gifs.py
+# requires: pip install Pillow
+# requires: brew install ffmpeg   (for MP4 export)
 ```
-
-**To regenerate a single scenario**, edit only its dict in `SCENARIOS` inside `build_gifs.py`, then re-run. All 8 render in ~60 seconds total.
 
 ---
 
-## GIF spec
+## Creative spec
 
-- Canvas: 1080×1080 px (1:1, WhatsApp-safe square)
-- Duration: 3 seconds, 10 fps, 30 frames, loops infinitely
-- File size: < 2 MB each (v0.2 actual: 1.2–1.5 MB due to Soft Bloom gradient)
-- Format: GIF with 128-color shared palette, disposal=1, optimize=True
-- **No CTA pill in the GIF** — "Reply YES" is a WhatsApp Quick Reply button set in TeleCRM
+| Property | Value |
+|---|---|
+| Canvas | 1080×1080 px (1:1, WhatsApp-safe square) |
+| Total duration | 4.0 s (1 s static hold + 3 s reveal animation) |
+| Playback | Once — holds on last frame |
+| GIF: file size | 1.4–1.6 MB (under WhatsApp 2 MB limit) |
+| MP4: file size | 320–385 KB (H.264, yuv420p, no audio) |
+| **WhatsApp delivery** | **Use MP4 as Video message type in TeleCRM** |
+| CTA in creative | None — "Reply YES" is a WhatsApp Quick Reply button in TeleCRM |
+
+**Why MP4, not GIF:**
+WhatsApp does not animate `.gif` files sent as image attachments. Animated content must be sent as MP4 video (`message type: video`). The MP4 autoplays inline in chat, plays once, and holds on the last frame.
 
 ---
 
@@ -68,51 +77,71 @@ python3 scripts/build_gifs.py
 
 | Decision | Rationale |
 |---|---|
-| Background: Soft Bloom | Most legible on WA light theme; Kaya/Oliva aesthetic; audit winner over gradient and marble |
-| Bloom: rose at bottom-right (alpha 55), gold at top-left (alpha 38) | Boosted from v0.1 (alpha 8–30) for visible texture; two-bloom balance per audit recommendation |
-| Logo width: 380px (35% canvas) | Premium clinics use 28–37%; 560px/52% was too dominant |
-| Logo top margin: 130px | Slightly more breathing room than v0.1 (110px) after logo shrink |
-| Headline: Poppins Bold 86pt, left-aligned at x=80px | Breaks centered-everything AI slop; editorial tension |
-| Separator: 3 gold dots (8px diameter, 12px gap), left-aligned at x=80px | 2px hairline doesn't survive GIF quantization at thumbnail size |
-| Body text: Regular 40pt, left-aligned at x=80px | Consistent left axis with headline |
-| Support line: Regular 34pt, charcoal 70% opacity, left-aligned | Fills dead bottom zone; per-scenario 1-liner (not a repeated tagline) |
-| No footer tagline | Already in logo; removing eliminates redundancy flagged in audit |
-| No CTA pill | WhatsApp Quick Reply button handles this in TeleCRM — cleaner GIF, larger for animation |
+| Background: Soft Bloom | Most legible on WA light theme; Kaya/Oliva aesthetic; audit winner |
+| Bloom: rose bottom-right (alpha 55) + gold top-left (alpha 38) | Two-bloom balance per audit recommendation; boosted from v0.1 |
+| Logo: centered, 380px (35% canvas) | Premium clinics use 28–37%; 52% was too dominant |
+| Logo top margin: 130px | Breathing room at top |
+| All text: center-aligned | User preference (v0.3); consistent axis with centered logo |
+| Separator: 3 gold dots (8px diameter, 12px gap), centered | Survives GIF quantization at thumbnail size; hairline does not |
+| Headline: Poppins Bold 86pt, magenta | Strong visual hook at thumbnail size |
+| Body: Poppins Regular 40pt, charcoal | Legible at WhatsApp chat bubble width (~260px) |
+| Support line: Regular 34pt, charcoal 70% opacity | Fills dead bottom zone; subordinate to body text |
+| HOLD_FRAMES=10 prepended | Frame 0 = complete design = correct WA thumbnail; fixes blank-first-frame |
+| loop=1 (play once) | Plays reveal animation once, holds on final frame |
+| No CTA pill in creative | WhatsApp Quick Reply button handles this in TeleCRM |
+| No footer tagline | Already in logo; removing eliminates audit-flagged redundancy |
 
 ---
 
-## Layout positions (v0.2, for reference when editing render_frame)
+## Layout positions (v0.3, centered, for reference when editing render_frame)
 
-These are computed dynamically in code from `logo.height`, but approximate values with the 380px logo (height ≈ 155px):
+Computed dynamically from `logo.height`. Approximate values with 380px logo (height ≈ 155px):
 
-| Element | Approx y |
-|---|---|
-| Logo top | 130 |
-| Logo bottom | ~285 |
-| Separator dots (centre) | ~321 |
-| Headline top | ~375 |
-| Body line 1 | ~517 |
-| Body line 2 | ~581 |
-| Support line | ~653 |
-| Bottom breathing room | ~653–1080 (intentional) |
+| Element | Approx y | Alignment |
+|---|---|---|
+| Logo | 130 | Centered horizontally |
+| Separator dots (centre) | ~321 | Centered (3-dot group) |
+| Headline | ~375 | Centered |
+| Body line 1 | ~517 | Centered |
+| Body line 2 | ~581 | Centered |
+| Support line | ~653 | Centered |
+| Bottom breathing room | ~653–1080 | Intentional luxury whitespace |
 
 ---
 
-## Animation timings (frame index, 10 fps)
+## Animation timings (frame index at 10 fps, AFTER hold frames)
 
 | Element | Fade-in range | Extra |
 |---|---|---|
 | Logo | 0–6 | — |
 | Separator dots | 3–9 | — |
-| Headline | 7–15 | +12px slide-up |
-| Body | 12–20 | — |
+| Headline | 7–15 | +12px upward slide |
+| Body text | 12–20 | — |
 | Support line | 17–24 | — |
+| Hold (fully visible) | 24–29 | — |
+
+---
+
+## Scenarios
+
+| ID | Scenario | Headline | Trigger |
+|---|---|---|---|
+| 01 | No answer / call not picked | We missed your call | 2 missed outbound calls (same day) |
+| 02 | Call disconnected | Oops, call dropped | Call < 30s, disposition = dropped |
+| 03 | Asked to call later | Time to chat? | Disposition = callback requested |
+| 04 | Interested, didn't book | Still thinking it over? | Call > 60s, no consult booked; 24h later |
+| 05 | Price objection | Smart options for you | Tag = price objection / expensive / budget |
+| 06 | Comparing competitors | Why patients pick FAB | Tag = comparing / mentions other clinic |
+| 07 | No-show after booking | We missed you today | Appointment = no-show; 2h after missed slot |
+| 08 | Cold / dormant | Have we lost touch? | No activity for 7 consecutive days |
+
+Full body copy and support lines are in `SCENARIOS` list in `scripts/build_gifs.py` and the WhatsApp message scripts are in `scripts/messages.json`.
 
 ---
 
 ## Content rules (non-negotiable)
 
-- Max 35 words per WhatsApp message
+- Max 35 words per WhatsApp message (`messages.json`)
 - Always include `{{name}}` and `{{campaign}}` placeholders
 - No medical claims, no guaranteed results — DCGI/ASCI compliant
 - End every message with `— FAB Skin Hair & Laser Clinic`
@@ -121,46 +150,42 @@ These are computed dynamically in code from `logo.height`, but approximate value
 
 ---
 
-## Scenarios
+## TeleCRM delivery checklist
 
-| ID | Scenario | GIF headline | Support line | Trigger |
-|---|---|---|---|---|
-| 01 | No answer / call not picked | We missed your call | We'd love to hear from you. | 2 missed outbound calls (same day) |
-| 02 | Call disconnected | Oops, call dropped | Let's continue where we left off. | Call < 30s, disposition = dropped |
-| 03 | Asked to call later | Time to chat? | Your time, your pace. | Disposition = callback requested |
-| 04 | Interested, didn't book | Still thinking it over? | No pressure — we're here for you. | Call > 60s, no consult booked; 24h later |
-| 05 | Price objection | Smart options for you | Flexible plans this month. | Tag = price objection / expensive / budget |
-| 06 | Comparing competitors | Why patients pick FAB | Trusted by thousands in your city. | Tag = comparing / mentions other clinic |
-| 07 | No-show after booking | We missed you today | Your slot is always here. | Appointment = no-show; 2h after missed slot |
-| 08 | Cold / dormant | Have we lost touch? | No rush. We're here when you are. | No activity for 7 consecutive days |
+- [ ] Upload `creatives/scenario-XX-*.mp4` as **Video** template (not Image/GIF)
+- [ ] Import `scripts/messages.json` as template-text library
+- [ ] Map `{{name}}` → lead First Name field
+- [ ] Map `{{campaign}}` → Campaign / Source field
+- [ ] Rate-limit guard: max 1 creative per lead per 6 hours, max 2 per 24 hours
+- [ ] Opt-out trap: STOP / NO reply → flag and exclude from all automation
+- [ ] Sending hours rule: 10 AM–8 PM IST only
 
 ---
 
 ## Skill routing
 
-When the user's request matches an available skill, invoke it via the Skill tool.
-
-- Visual design changes or polish → `/design-review`
-- New feature or content changes → `/brainstorming` first
-- Bugs in build_gifs.py → `/investigate`
+- Visual design changes → `/design-review`
+- New feature or copy changes → `/brainstorming` first
+- Bugs in `build_gifs.py` → `/investigate`
 - Shipping / PR → `/ship`
 
 ---
 
 ## What NOT to do
 
-- Do not add a CTA pill or button inside the GIF visuals
+- Do not send `.gif` files to WhatsApp expecting animation — use `.mp4`
+- Do not add a CTA button inside the creative visuals
 - Do not invent clinic names, doctor names, or testimonials
-- Do not use stock photos of real people
-- Do not change brand colours, fonts, or layout without re-running `/design-review`
+- Do not change brand colours or fonts without re-running `/design-review`
 - Do not delete `assets/fonts/` — Poppins TTFs are required by the renderer
+- Do not edit GIF/MP4 files directly — always edit `build_gifs.py` and regenerate
 - Do not commit secrets or API keys
-- Do not edit GIFs directly — always edit `build_gifs.py` and regenerate
 
 ---
 
 ## Reference files
 
-- `progress.md` — current state, accomplished work, next steps
-- `design-preview/audit/design-audit-fab-whatsapp.md` — full /design-review audit (8 findings)
-- `scripts/messages.json` — canonical copy source for all 8 messages
+- `progress.md` — full project history, current state, next steps
+- `design-preview/audit/design-audit-fab-whatsapp.md` — /design-review report (8 findings)
+- `scripts/messages.json` — canonical WhatsApp message copy for all 8 scenarios
+- GitHub: `https://github.com/r129rashid/fab-whatsapp-creatives`

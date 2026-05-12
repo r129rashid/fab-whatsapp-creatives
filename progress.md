@@ -7,7 +7,7 @@ _Last updated: 12 May 2026_
 ## What we set out to build
 
 A complete WhatsApp tele-caller follow-up creative pack for FAB Skin Hair & Laser Clinic:
-8 animated GIF creatives (1080×1080, WhatsApp-safe) + matching copy scripts covering the 8 most common lead re-engagement scenarios, ready for TeleCRM automation.
+8 animated creatives (1080×1080, WhatsApp-safe) + matching copy scripts covering the 8 most common lead re-engagement scenarios, ready for TeleCRM automation.
 
 ---
 
@@ -19,12 +19,11 @@ A complete WhatsApp tele-caller follow-up creative pack for FAB Skin Hair & Lase
 - Clinic name: **FAB Skin Hair & Laser Clinic** | Tagline: "a complete ethical aesthetic care"
 
 ### Copy — 8 Message Scripts
-All 8 WhatsApp messages written, reviewed, and finalised:
+All 8 WhatsApp messages written, reviewed, and finalised in `scripts/messages.json`:
 - ≤ 35 words each (actual: 30–33 words)
 - `{{name}}` + `{{campaign}}` placeholders throughout
-- Single CTA: Reply **YES** (WhatsApp Quick Reply button — NOT in GIF visual)
+- Single CTA: Reply **YES** (WhatsApp Quick Reply button — NOT in creative visual)
 - DCGI / ASCI compliant (no medical claims, no guaranteed results)
-- Warm English with light Hinglish space for A/B testing
 
 | # | Scenario | Trigger |
 |---|---|---|
@@ -38,76 +37,93 @@ All 8 WhatsApp messages written, reviewed, and finalised:
 | 8 | Cold / dormant (7+ days silence) | 7 days no activity |
 
 ### Design Review (via /design-review)
-Full design audit completed across 3 proposed background directions:
-- **A — Soft Bloom** (off-white + blush glow) ← **chosen**
-- **B — Gradient Wash** (diagonal rose-to-cream)
-- **C — Marble Mist** (near-white + gold marble veins)
+Full audit across 3 proposed directions, 8 findings resolved:
+- **Direction chosen: A — Soft Bloom** (blush glow on cream, boosted opacity)
 - Audit report: `design-preview/audit/design-audit-fab-whatsapp.md`
-- 8 findings identified (4 HIGH, 3 MEDIUM, 1 POLISH), all resolved in v0.2
 
-### v0.1 GIFs (baseline)
-- All 8 GIFs rendered successfully, ~485 KB each
-- Functional but had 4 HIGH-severity design issues from audit
+### v0.1 GIFs (baseline render)
+- All 8 GIFs rendered, ~485 KB each
+- Functional baseline with 4 HIGH-severity design issues identified in audit
 
-### v0.2 GIFs (current — production ready) ✅
-All 5 audit fixes implemented in `scripts/build_gifs.py` and all 8 GIFs regenerated:
+### v0.2 GIFs (design audit fixes)
+5 audit fixes applied: logo resized (560→380px), Soft Bloom background, 3 gold dot separator, left-aligned headline, per-scenario support line. All under 2 MB.
 
-| Fix Applied | Detail |
-|---|---|
-| Logo resized | 560px → 380px (35% canvas width) |
-| Background replaced | Static corner arcs → Soft Bloom (rose glow bottom-right + gold glow top-left, alpha 38–55) |
-| Separator upgraded | 2px gold hairline → 3 gold dots (8px diameter, 12px gap), left-aligned |
-| Headline left-aligned | Was centered; now left margin x=80px — breaks "AI slop centered everything" pattern |
-| Support line added | Per-scenario warm 1-liner below body text — fills the previously dead bottom zone |
-| Footer tagline removed | Was a duplicate of the logo tagline; freed space used by support line |
-| CTA pill removed | "Reply YES" is a WhatsApp Quick Reply button in TeleCRM, not a GIF visual element |
+### v0.3 GIFs + MP4s (current — production ready) ✅
 
-**v0.2 file sizes:**
+Three user-requested changes implemented:
 
-| File | Size |
-|---|---|
-| scenario-01-no-answer.gif | 1265.0 KB |
-| scenario-02-disconnected.gif | 1327.4 KB |
-| scenario-03-call-later.gif | 1315.3 KB |
-| scenario-04-didnt-book.gif | 1438.8 KB |
-| scenario-05-price.gif | 1276.4 KB |
-| scenario-06-comparing.gif | 1449.5 KB |
-| scenario-07-no-show.gif | 1408.1 KB |
-| scenario-08-dormant.gif | 1369.0 KB |
+#### 1. WhatsApp animation fix → MP4 export
+WhatsApp does **not** animate `.gif` files sent as image attachments — this is a platform-level limitation. Animated content must be delivered as MP4 video. The renderer now outputs both formats per scenario:
+- `creatives/*.gif` — for preview, web, email
+- `creatives/*.mp4` — **use this for WhatsApp / TeleCRM** (320–385 KB each)
 
-All 8 under 2 MB (WhatsApp limit). Larger than v0.1 because Soft Bloom gradient background adds color variation — expected trade-off for premium aesthetics.
+For TeleCRM: upload `.mp4` files as **Video** message type (not Image/GIF). The video autoplays inline, plays once through the 4-second reveal, and holds on the last frame.
 
-### Documentation & Tooling
-- `scripts/build_gifs.py` — fully reproducible Python renderer (v0.2)
-- `scripts/messages.md` + `scripts/messages.json` — CRM-import-ready copy
-- `preview.html` — all 8 GIFs side-by-side with scenario labels, message copy, triggers
-- `README.md` — full playbook for tele-calling team
-- `CLAUDE.md` — project context file for future Claude sessions
-- `design-preview/` — 3 direction mockups + full audit report
+#### 2. Center alignment
+All elements switched from left-aligned to horizontally centered: headline, body text, support line, and separator dots. Logo was already centered.
+
+#### 3. Richer body copy
+Body text updated to be warmer and more complete across all 8 scenarios:
+
+| # | Headline | Body line 1 | Body line 2 | Support line |
+|---|---|---|---|---|
+| 01 | We missed your call | We tried reaching you but missed you today. | Reply YES — we'll call you right back. | We'd love to hear from you. |
+| 02 | Oops, call dropped | Our call got disconnected midway — sorry! | Reply YES to continue from where we stopped. | Let's continue where we left off. |
+| 03 | Time to chat? | You'd asked us to reach back out — we're here! | Reply YES to confirm a convenient time. | Your time, your pace. |
+| 04 | Still thinking it over? | Your consultation is just one step away. | Reply YES and we'll guide you through it. | No pressure — we're here for you. |
+| 05 | Smart options for you | We have flexible EMI plans and special offers. | Reply YES to find the best plan for you. | Flexible plans this month. |
+| 06 | Why patients pick FAB | Thousands trust FAB for certified, ethical care. | Reply YES for a transparent, no-pressure chat. | Trusted by thousands in your city. |
+| 07 | We missed you today | We held your slot open — hope you're doing well. | Reply YES to reschedule at your convenience. | Your slot is always here. |
+| 08 | Have we lost touch? | It's been a while — we've been thinking of you. | Reply YES whenever you're ready to reconnect. | No rush. We're here when you are. |
+
+#### v0.3 file sizes
+
+| File | GIF | MP4 |
+|---|---|---|
+| scenario-01-no-answer | 1495.5 KB | 355.3 KB |
+| scenario-02-disconnected | 1494.5 KB | 352.5 KB |
+| scenario-03-call-later | 1407.6 KB | 321.8 KB |
+| scenario-04-didnt-book | 1576.6 KB | 357.0 KB |
+| scenario-05-price | 1573.3 KB | 357.8 KB |
+| scenario-06-comparing | 1619.0 KB | 383.7 KB |
+| scenario-07-no-show | 1516.5 KB | 369.4 KB |
+| scenario-08-dormant | 1580.4 KB | 366.0 KB |
+
+All GIFs under 2 MB. All MP4s under 400 KB.
+
+### Git & GitHub
+Project initialised as a git repository and published to GitHub:
+- Repo: `https://github.com/r129rashid/fab-whatsapp-creatives`
+- Latest commit: `b02ee9c` (v0.3)
+- All Python source, assets, GIFs, MP4s, and docs committed
 
 ---
 
 ## Current State 🎯
 
-**v0.2 GIFs are production-ready.** All audit findings resolved. Visual QC passed (both sample frames reviewed — clean hierarchy, premium aesthetic, legible at thumbnail size).
-
-Design quality target achieved: **B+ level** (from audit projection of B after quick wins).
+**v0.3 is production-ready.** All creatives are rendered, QC passed visually. MP4 files are ready for TeleCRM upload. GIFs are available for web/preview use.
 
 ---
 
 ## What's next 🔜
 
 ### Immediate — before going live
-1. **Phone test**: drop one GIF into WhatsApp on a real device, verify:
-   - Animation plays (not shown as still image)
-   - Text legible on both light and dark themes
-   - File accepted without compression warning
-2. **TeleCRM upload**: upload each `creatives/scenario-XX-*.gif` as WhatsApp media template; import `scripts/messages.json` as template-text library; map `{{name}}` and `{{campaign}}` to CRM lead fields
+1. **Phone test with MP4**: send one `.mp4` from `creatives/` to a WhatsApp contact, verify:
+   - Video autoplays inline in chat
+   - Reveal animation plays through cleanly (4 seconds)
+   - Holds on final frame after playing
+   - Text legible on light and dark WhatsApp themes
+2. **TeleCRM upload**:
+   - Upload each `creatives/scenario-XX-*.mp4` as a **Video** template (not Image/GIF)
+   - Import `scripts/messages.json` as template-text library
+   - Map `{{name}}` → lead First Name, `{{campaign}}` → Campaign/Source field
+   - Set rate-limit guard: max 1 creative per lead per 6 hours, max 2 per 24 hours
+   - Configure opt-out trap: if lead replies STOP/NO, flag and exclude from automation
 
 ### Optional / future
-3. **Hinglish A/B variants** — alternative copy for scenarios 03, 05, 08 where Hinglish tone lifts reply rates (edit `messages.json`, regenerate only affected GIFs)
-4. **Scenario 9+ expansion** — e.g., "Post-consultation follow-up" or "Seasonal campaign push"
-5. **Dark theme variant** — dark-background GIF set for WhatsApp dark mode power users
+3. **Hinglish A/B variants** — alternative copy for scenarios 03, 05, 08 (edit `messages.json`, no GIF regeneration needed unless headlines change)
+4. **Scenario 9+ expansion** — e.g. post-consultation follow-up, seasonal campaign push
+5. **Dark-theme MP4 variant** — dark background set for WhatsApp dark mode users
 
 ---
 
@@ -119,17 +135,18 @@ Design quality target achieved: **B+ level** (from audit projection of B after q
 ├── CLAUDE.md                        # project context for Claude sessions
 ├── README.md                        # tele-caller team playbook
 ├── progress.md                      # this file
-├── preview.html                     # review all 8 GIFs side-by-side
-├── assets/fonts/                    # Poppins TTFs (Bold, SemiBold, Regular, Italic)
-├── creatives/                       # 8 exported GIFs (v0.2, 1.2–1.5 MB each)
+├── preview.html                     # review all 8 GIFs side-by-side in browser
+├── assets/fonts/                    # Poppins TTFs (Bold, Regular) — do not delete
+├── creatives/
+│   ├── scenario-01-no-answer.gif    # 1.5 MB — for web/preview
+│   ├── scenario-01-no-answer.mp4    # 355 KB — USE THIS FOR WHATSAPP
+│   ├── ... (× 8 scenarios)
 ├── scripts/
-│   ├── build_gifs.py                # renderer v0.2 — edit here, re-run to regenerate
+│   ├── build_gifs.py                # renderer v0.3 — edit here, re-run to regenerate
 │   ├── messages.md                  # human-readable copy + triggers
 │   └── messages.json                # CRM-import JSON
 └── design-preview/
-    ├── A-soft-bloom.png             # design direction mockups
-    ├── B-gradient-wash.png
-    ├── C-marble-mist.png
+    ├── A-soft-bloom.png / B / C     # design direction mockups
     ├── index.html                   # direction comparison page
     └── audit/
         └── design-audit-fab-whatsapp.md  # full /design-review report
@@ -139,8 +156,9 @@ Design quality target achieved: **B+ level** (from audit projection of B after q
 
 ## Open Questions
 None blocking. All decisions resolved:
-- ✅ CTA destination: WhatsApp Quick Reply button (not in GIF)
-- ✅ Renderer: Python (Pillow)
-- ✅ Language: English + light Hinglish
-- ✅ Design direction: A — Soft Bloom (audit fixes applied)
-- ✅ v0.2 GIFs: generated, QC passed, production-ready
+- ✅ CTA destination: WhatsApp Quick Reply button (not in creative)
+- ✅ Renderer: Python (Pillow) + ffmpeg for MP4
+- ✅ Language: English (Hinglish A/B optional)
+- ✅ Design direction: A — Soft Bloom, center-aligned, v0.3
+- ✅ WhatsApp delivery format: MP4 video (not GIF image)
+- ✅ GitHub: `r129rashid/fab-whatsapp-creatives`
