@@ -68,7 +68,12 @@ WHITE = (255, 255, 255)
 
 W, H = 1080, 1080   # canvas dimensions (px)
 FPS = 10            # frames per second — lower FPS = smaller GIF
-N_FRAMES = 30       # total frames (= 3 s loop at 10 fps)
+N_FRAMES = 30       # animation frames (= 3 s of reveal at 10 fps)
+# Frames of the fully-revealed design shown BEFORE the reveal animation restarts.
+# Critical for WhatsApp: frame 0 of a GIF is the thumbnail. Without this hold,
+# the thumbnail is a blank cream square and the GIF looks broken.
+# With disposal=1, identical hold frames compress to near-zero extra bytes.
+HOLD_FRAMES = 10    # 1.0 s static hold → thumbnail + tap-to-play anchor on iOS
 LOGO_W = 380        # logo render width in px — 35% of canvas (premium range: 28–37%)
 
 # ---------------------------------------------------------------------------
@@ -385,8 +390,15 @@ def render_gif(
     """
     frames = [render_frame(t, scenario, logo, fonts, bg) for t in range(N_FRAMES)]
 
-    # Build palette from the final frame — it contains all colours in the animation
-    palette_src = frames[-1].quantize(
+    # Prepend static hold frames showing the fully-revealed design.
+    # The first frame of a GIF is WhatsApp's thumbnail AND the starting display
+    # state. Without this, frame 0 is a blank cream square (all elements are at
+    # opacity 0 at t=0), making the creative appear broken before it animates.
+    # Identical frames compress to near-zero bytes with disposal=1 delta encoding.
+    frames = [frames[-1]] * HOLD_FRAMES + frames
+
+    # Build palette from the hold frame — it contains every colour in the animation
+    palette_src = frames[0].quantize(
         colors=128, method=Image.MEDIANCUT, dither=Image.FLOYDSTEINBERG
     )
     quantized = [
@@ -398,7 +410,7 @@ def render_gif(
         save_all=True,
         append_images=quantized[1:],
         duration=int(1000 / FPS),   # milliseconds per frame
-        loop=0,                      # 0 = infinite loop
+        loop=1,                      # 1 = play once then hold on last frame
         optimize=True,
         disposal=1,                  # leave-in-place for delta compression
     )
